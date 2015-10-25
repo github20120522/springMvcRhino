@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * Created by fz on 2015/10/25.
  */
 @Controller
-public class Hunter {
+public class HunterController {
 
-    private static final Logger logger = LoggerFactory.getLogger(Hunter.class);
+    private static final Logger logger = LoggerFactory.getLogger(HunterController.class);
 
     @RequestMapping("hunter")
     public String index(){
