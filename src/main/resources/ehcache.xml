@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache>
+    <!--
+    缓存区使用<cache/>标签进行配置，主要属性以及意义如下：
+     name（必填属性）：缓存区名称，用以区别缓存区，必须唯一。
+     maxEntriesLocalHeap（必填属性）：设置缓存在本地内存中最大缓存项数量（0
+    表示无限）。（等效于旧版本中的 maxElementsInMemory 属性）。
+    在实际使用中，在非分布式部署条件下，无限等效于 Integer.MAX_SIZE
+    (2147483647)。在分布式部署条件下，缓存项数量由 Terracotta Server Array 资
+    源上限决定。
+     maxEntriesLocalDisk（必填属性）：设置保存在本地磁盘中的的最大缓存项数量。
+    默认为 0，表示数量不限。
+     eternal（必填属性）：设置缓存项是否为永久的。如果设置为 true，缓存项的过
+    期设置将被忽略，缓存项永不过期。
+     overflowToOffHeap：此属性仅在使用 Ehcache 企业版时有效。设置为 true，
+    缓存将使用非堆内存，非堆内存并非由 Java 管理，与 Java 垃圾回收无关。默认
+    为 false。
+     maxBytesLocalHeap：定义保存在 Java 虚拟机堆内存中的缓存项的最大字节数。
+    定义时格式如下<number>k|K|m|M|g|G，其中 k|K 代表千字节，m|M 代表
+    兆字节，g|G 代表吉字节。
+    举例：maxBytesLocalHeap="2g"将使用 2G 堆内存。
+    此 属 性 与 maxEntriesLocalHeap 互 斥 ， 指 定 了 此 属 性 ， 则 不 能 指 定
+    maxEntriesLocalHeap。
+    如果设定过 CacheManager 的 maxBytesLocalHeap 属性，也不能使用此
+    属性。
+    放入缓存的缓存项将使用 net.sf.ehcache.pool.sizeof.SizeOf 方法计算其字
+    节数。
+    如 果 希 望 在 计 算 字 节 数 时 忽 略 对 象 树 种 的 某 些 属 性 ， 请 参 考
+    net.sf.ehcache.pool.sizeof.annotations.IgnoreSizeOf 注解。
+     maxBytesLocalOffHeap：此属性仅在使用 Ehcache 企业版时有效。设置本缓
+    存区使用的非堆内存的大小。
+    指定此属性，将默认设置 overflowToOffHeap 为 true。如果特别指定了
+    overflowToOffHeap=”false”，将禁止使用非堆内存。
+    注意：当使用非堆内存时，推荐将 maxEntriesLocalHeap 设置为大于等于
+    100，否则将严重影响性能。也将看到一条警告日志。
+    非堆内存最小值为 128MB，没有上限。
+     maxBytesLocalDisk：和 maxBytesLocalHeap 属性类似，不过指定的是存储在
+    本地磁盘上的缓存项最大可使用的字节数。
+     timeToIdleSeconds：设置一个缓存项在过期前的闲置时间。即一个缓存项在其
+    过期前，两次访问间隔的最大时间。仅在缓存项为非永久时有效。0 表示不限闲置
+    时间，默认为 0。
+     timeToLiveSeconds：设置一个缓存项在过期前的生存时间。即从缓存项创建到
+    过期的最大时间。仅在缓存项为非永久时有效。0 表示不限生存时间，默认为 0。
+     diskExpiryThreadIntervalSeconds：清理保存在磁盘上的过期缓存项目的线程的
+    启动时间间隔，默认 120 秒。
+     diskSpoolBufferSizeMB：磁盘缓冲区的大小。写入磁盘的内容将缓冲在此区域，
+    使用异步的方式写入磁盘。默认 30MB，每一个缓存区使用独立的缓冲区，如果遇
+    到 OutOfMemory 错误时，可以尝试减小这个值。改进磁盘写入性能时，尝试增
+    加这个值。将日志级别开到 Trace，当 DiskStore 执行磁盘写入时，可以看到对应
+    日志。
+     clearOnFlush：当 flush()方法调用时，MemoryStore 是否清空其内容，默认为
+    true，即清空。
+     statistics：是否收集统计信息。如果需要监控缓存使用情况，应该打开这个选项。
+    默认为关闭（统计会影响性能）。设置 statistics="true"开启统计。
+     memoryStoreEvictionPolicy：当缓存项达到 maxEntriesLocalHeap 限制时，剔
+    除缓存项的策略。默认为 LRU（Least Recently Used）。其他的策略有：FIFO（First In
+    First Out）和 LFU（Less Frequently Used）。
+     copyOnRead：当缓存项被读出时，是否返回一份它的拷贝（返回对象是缓存中
+    对象的拷贝）。默认 false。
+     copyOnWrite：当缓存项被写入时，是否写入一份它的拷贝（写入缓存的是写入
+    对象的拷贝）。默认 false。
+    -->
+    <diskStore path="./cache"/>
+    <defaultCache
+            overflowToDisk="true"
+            maxEntriesLocalHeap="10000"
+            eternal="false"
+            timeToIdleSeconds="120"
+            timeToLiveSeconds="120"
+            maxElementsOnDisk="10000000"
+            diskExpiryThreadIntervalSeconds="120"
+            memoryStoreEvictionPolicy="LRU">
+    </defaultCache>
+
+    <cache name="rhino"
+           overflowToDisk="true"
+           maxEntriesLocalHeap="10000"
+           eternal="false"
+           timeToIdleSeconds="120"
+           timeToLiveSeconds="120"
+           maxElementsOnDisk="10000000"
+           diskExpiryThreadIntervalSeconds="120"
+           memoryStoreEvictionPolicy="LRU" />
+</ehcache>
