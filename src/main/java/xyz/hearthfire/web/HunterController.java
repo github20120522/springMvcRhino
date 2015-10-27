@@ -42,7 +42,12 @@ public class HunterController {
     @RequestMapping("/getCache/{key}")
     @ResponseBody
     public String getCache(@PathVariable String key){
-        return cacheUtil.getCache(key).toString();
+        Object obj = cacheUtil.getCache(key);
+        String result = "null";
+        if(obj != null){
+            result = obj.toString();
+        }
+        return result;
     }
 
     @RequestMapping("/removeCache/{key}")
