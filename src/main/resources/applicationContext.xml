@@ -14,7 +14,8 @@
     <context:property-placeholder location="classpath:spring.properties" />
 
     <context:component-scan base-package="xyz.hearthfire">
-        <context:exclude-filter type="regex" expression="xyz\.hearthfile\.web\..*"/>
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+        <context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.RestController"/>
     </context:component-scan>
 
     <!-- 缓存配置 -->
