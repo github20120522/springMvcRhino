@@ -30,4 +30,69 @@
         <property name="configLocation" value="classpath:ehcache.xml" />
     </bean>
 
+    <!-- JPA实体管理工厂的配置 -->
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" destroy-method="destroy">
+        <property name="dataSource" ref="dynamicDataSource"/>
+        <property name="jpaVendorAdapter" ref="hibernateJpaVendorAdapter"/>
+        <!--待扫描的实体类包，不再需要persistence.xml了-->
+        <property name="packagesToScan" value="xyz.hearthfire.entity"/>
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.implicit_naming_strategy">org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.hbm2ddl.auto">validate</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!--指定实现JPA的适配器-->
+    <bean id="hibernateJpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+        <property name="databasePlatform" value="org.hibernate.dialect.MySQL5Dialect" />
+    </bean>
+
+    <!-- Jpa事务配置 -->
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+
+    <!-- 使用annotation定义事务 -->
+    <tx:annotation-driven transaction-manager="transactionManager" />
+
+    <bean id="dataSourceProduct" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="driverClass" value="com.mysql.jdbc.Driver" />
+        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/hunter?useUnicode=true&amp;characterEncoding=UTF-8" />
+        <property name="user" value="root" />
+        <property name="password" value="root" />
+        <property name="initialPoolSize" value="5" />
+        <property name="minPoolSize" value="5" />
+        <property name="maxPoolSize" value="100" />
+        <property name="maxIdleTime" value="600" />
+        <property name="acquireIncrement" value="5" />
+        <property name="checkoutTimeout" value="60000" />
+    </bean>
+
+    <bean id="dataSourceDevelopment" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="driverClass" value="com.mysql.jdbc.Driver" />
+        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/rhino?useUnicode=true&amp;characterEncoding=UTF-8" />
+        <property name="user" value="root" />
+        <property name="password" value="root" />
+        <property name="initialPoolSize" value="5" />
+        <property name="minPoolSize" value="5" />
+        <property name="maxPoolSize" value="100" />
+        <property name="maxIdleTime" value="600" />
+        <property name="acquireIncrement" value="5" />
+        <property name="checkoutTimeout" value="60000" />
+    </bean>
+
+    <bean id="dynamicDataSource" class="xyz.hearthfire.datasource.DynamicDataSource">
+        <property name="targetDataSources">
+            <map key-type="xyz.hearthfire.datasource.CustomerType">
+                <entry key="PRODUCT" value-ref="dataSourceProduct" />
+                <entry key="DEVELOPMENT" value-ref="dataSourceDevelopment" />
+            </map>
+        </property>
+        <property name="defaultTargetDataSource" ref="dataSourceDevelopment" />
+    </bean>
+
 </beans>

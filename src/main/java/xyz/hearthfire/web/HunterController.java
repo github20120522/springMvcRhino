@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import xyz.hearthfire.utils.CacheUtil;
+import xyz.hearthfire.cache.CacheServiceImpl;
 
 /**
  * Created by fz on 2015/10/25.
@@ -18,7 +18,7 @@ public class HunterController {
     private static final Logger logger = LoggerFactory.getLogger(HunterController.class);
 
     @Autowired
-    private CacheUtil cacheUtil;
+    private CacheServiceImpl cacheServiceImpl;
 
     @RequestMapping("/hunter")
     public String index(){
@@ -28,21 +28,35 @@ public class HunterController {
     @RequestMapping("/putCache/{key}/{value}")
     @ResponseBody
     public String putCache(@PathVariable String key, @PathVariable String value){
-        cacheUtil.putCache(key, value);
+        cacheServiceImpl.putCache(key, value);
+        return "success";
+    }
+
+    @RequestMapping("/putCache/{key}/{value}/{time}")
+    @ResponseBody
+    public String putCache(@PathVariable String key, @PathVariable String value, @PathVariable long time){
+        cacheServiceImpl.putCache(key, value, time);
         return "success";
     }
 
     @RequestMapping("/replaceCache/{key}/{value}")
     @ResponseBody
     public String replaceCache(@PathVariable String key, @PathVariable String value){
-        cacheUtil.replaceCache(key, value);
+        cacheServiceImpl.replaceCache(key, value);
+        return "success";
+    }
+
+    @RequestMapping("/replaceCache/{key}/{value}/{time}")
+    @ResponseBody
+    public String replaceCache(@PathVariable String key, @PathVariable String value, @PathVariable long time){
+        cacheServiceImpl.replaceCache(key, value, time);
         return "success";
     }
 
     @RequestMapping("/getCache/{key}")
     @ResponseBody
     public String getCache(@PathVariable String key){
-        Object obj = cacheUtil.getCache(key);
+        Object obj = cacheServiceImpl.getCache(key);
         String result = "null";
         if(obj != null){
             result = obj.toString();
@@ -54,8 +68,8 @@ public class HunterController {
     @ResponseBody
     public boolean removeCache(@PathVariable String key){
         boolean b = false;
-        cacheUtil.removeCache(key);
-        if(cacheUtil.getCache(key) == null){
+        cacheServiceImpl.removeCache(key);
+        if(cacheServiceImpl.getCache(key) == null){
             b = true;
         }
         return b;
