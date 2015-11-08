@@ -35,7 +35,7 @@
             <maxHistory>12</maxHistory>
         </rollingPolicy>
         <encoder>
-            <pattern>%d %-5level - %msg%n</pattern>
+            <pattern>%d [%thread] %-5level [%logger{36}] - %msg%n</pattern>
         </encoder>
         <!--日志文件最大的大小 -->
         <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">

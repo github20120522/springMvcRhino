@@ -46,7 +46,7 @@ public class CommonDaoImpl implements CommonDao {
             Query query = entityManager.createQuery(hql);
             return query.getResultList();
         } catch (Exception e) {
-            logger.error("CommonDao.<T> List<T> queryList(String hql)");
+            logger.error(e.toString());
             throw new RuntimeException(e);
         }
     }
@@ -61,7 +61,7 @@ public class CommonDaoImpl implements CommonDao {
             }
             return query.getResultList();
         } catch (Exception e) {
-            logger.error("CommonDao.<T> List<T> queryList(String hql, Map<String, Object> params)");
+            logger.error(e.toString());
             throw new RuntimeException(e);
         }
     }
@@ -74,7 +74,7 @@ public class CommonDaoImpl implements CommonDao {
             query.setMaxResults(maxCount);
             return query.getResultList();
         } catch (Exception e) {
-            logger.error("CommonDao.<T> List<T> queryListLimitCount(String hql, int maxCount)");
+            logger.error(e.toString());
             throw new RuntimeException(e);
         }
     }
@@ -90,7 +90,7 @@ public class CommonDaoImpl implements CommonDao {
             query.setMaxResults(maxCount);
             return query.getResultList();
         } catch (Exception e) {
-            logger.error("CommonDao.<T> List<T> queryListLimitCount(String hql, Map<String, Object> params, int maxCount)");
+            logger.error(e.toString());
             throw new RuntimeException(e);
         }
     }
@@ -104,7 +104,7 @@ public class CommonDaoImpl implements CommonDao {
             query.setMaxResults(pageSize);
             return query.getResultList();
         } catch (Exception e) {
-            logger.error("CommonDao.<T> List<T> queryPageList(String hql, int currentPage, int pageSize)");
+            logger.error(e.toString());
             throw new RuntimeException(e);
         }
     }
@@ -121,7 +121,7 @@ public class CommonDaoImpl implements CommonDao {
             query.setMaxResults(pageSize);
             return query.getResultList();
         } catch (Exception e) {
-            logger.error("CommonDao.<T> List<T> queryPageList(String hql, Map<String, Object> params, int currentPage, int pageSize)");
+            logger.error(e.toString());
             throw new RuntimeException(e);
         }
     }
@@ -139,7 +139,7 @@ public class CommonDaoImpl implements CommonDao {
             pagerData.setData(query.getResultList());
             return pagerData;
         } catch (Exception e) {
-            logger.error("CommonDao.<T> PagerData<T> queryPagerData(String countHql, String hql, int currentPage, int pageSize)");
+            logger.error(e.toString());
             throw new RuntimeException(e);
         }
     }
@@ -160,7 +160,7 @@ public class CommonDaoImpl implements CommonDao {
             pagerData.setData(query.getResultList());
             return pagerData;
         } catch (Exception e) {
-            logger.error("CommonDao.<T> PagerData<T> queryPagerData(String countHql, String hql, Map<String, Object> params, int currentPage, int pageSize)");
+            logger.error(e.toString());
             throw new RuntimeException(e);
         }
     }
@@ -172,7 +172,7 @@ public class CommonDaoImpl implements CommonDao {
             Query query = entityManager.createQuery(hql);
             return (T)query.getSingleResult();
         } catch (Exception e) {
-            logger.error("CommonDao.<T> T getSingle(String hql)");
+            logger.error(e.toString());
             throw new RuntimeException(e);
         }
     }
@@ -187,7 +187,7 @@ public class CommonDaoImpl implements CommonDao {
             }
             return (T)query.getSingleResult();
         } catch (Exception e) {
-            logger.error("CommonDao.<T> T getSingle(String hql, Map<String, Object> params)");
+            logger.error(e.toString());
             throw new RuntimeException(e);
         }
     }
@@ -199,7 +199,7 @@ public class CommonDaoImpl implements CommonDao {
             Object object = entityManager.find(clazz, id);
             return (T)object;
         } catch (Exception e) {
-            logger.error("CommonDao.<T> T findById(Class<T> clazz, Object id)");
+            logger.error(e.toString());
             throw new RuntimeException(e);
         }
     }
@@ -217,7 +217,7 @@ public class CommonDaoImpl implements CommonDao {
                 return query.getResultList();
             }
         } catch (Exception e) {
-            logger.error("CommonDao.<T> List<T> queryListBySql(String sql, Class<T> clazz)");
+            logger.error(e.toString());
             throw new RuntimeException(e);
         }
     }
@@ -241,7 +241,7 @@ public class CommonDaoImpl implements CommonDao {
                 return query.getResultList();
             }
         } catch (Exception e) {
-            logger.error("CommonDao.<T> List<T> queryListBySql(String sql, Map<String, Object> params, Class<T> clazz)");
+            logger.error(e.toString());
             throw new RuntimeException(e);
         }
     }
@@ -265,7 +265,7 @@ public class CommonDaoImpl implements CommonDao {
                 return pagerData;
             }
         } catch (Exception e) {
-            logger.error("CommonDao.<T> PagerData<T> queryPagerDataBySql(String countSql, String sql, Class<T> clazz)");
+            logger.error(e.toString());
             throw new RuntimeException(e);
         }
     }
@@ -295,7 +295,7 @@ public class CommonDaoImpl implements CommonDao {
                 return pagerData;
             }
         } catch (Exception e) {
-            logger.error("CommonDao.<T> PagerData<T> queryPagerDataBySql(String countSql, String sql, Map<String, Object> params, Class<T> clazz)");
+            logger.error(e.toString());
             throw new RuntimeException(e);
         }
     }
@@ -316,7 +316,7 @@ public class CommonDaoImpl implements CommonDao {
                 return (T)query.getSingleResult();
             }
         } catch (Exception e) {
-            logger.error("CommonDao.<T> T getSingleBySql(String sql, Class<T> clazz)");
+            logger.error(e.toString());
             throw new RuntimeException(e);
         }
     }
@@ -346,7 +346,7 @@ public class CommonDaoImpl implements CommonDao {
                 return (T)query.getSingleResult();
             }
         } catch (Exception e) {
-            logger.error("CommonDao.<T> T getSingleBySql(String sql, Map<String, Object> params, Class<T> clazz)");
+            logger.error(e.toString());
             throw new RuntimeException(e);
         }
     }
@@ -357,7 +357,7 @@ public class CommonDaoImpl implements CommonDao {
         try {
             entityManager.persist(entity);
         } catch (Exception e) {
-            logger.error("CommonDao.void save(Object entity)");
+            logger.error(e.toString());
             throw new RuntimeException(e);
         }
     }
@@ -368,7 +368,7 @@ public class CommonDaoImpl implements CommonDao {
         try {
             entityManager.merge(entity);
         } catch (Exception e) {
-            logger.error("CommonDao.void update(Object entity)");
+            logger.error(e.toString());
             throw new RuntimeException(e);
         }
     }
@@ -379,7 +379,7 @@ public class CommonDaoImpl implements CommonDao {
         try {
             entityManager.remove(entityManager.contains(entity) ? entity : entityManager.merge(entity));
         } catch (Exception e) {
-            logger.error("CommonDao.void delete(Object entity)");
+            logger.error(e.toString());
             throw new RuntimeException(e);
         }
     }
@@ -391,7 +391,7 @@ public class CommonDaoImpl implements CommonDao {
             Query query = entityManager.createQuery(hql);
             return query.executeUpdate();
         } catch (Exception e) {
-            logger.error("CommonDao.int execute(String hql)");
+            logger.error(e.toString());
             throw new RuntimeException(e);
         }
     }
@@ -406,7 +406,7 @@ public class CommonDaoImpl implements CommonDao {
             }
             return query.executeUpdate();
         } catch (Exception e) {
-            logger.error("CommonDao.int execute(String hql, Map<String, Object> params)");
+            logger.error(e.toString());
             throw new RuntimeException(e);
         }
     }
@@ -418,7 +418,7 @@ public class CommonDaoImpl implements CommonDao {
             Query query = entityManager.createNativeQuery(sql);
             return query.executeUpdate();
         } catch (Exception e) {
-            logger.error("CommonDao.int executeBySql(String sql)");
+            logger.error(e.toString());
             throw new RuntimeException(e);
         }
     }
@@ -433,7 +433,7 @@ public class CommonDaoImpl implements CommonDao {
             }
             return query.executeUpdate();
         } catch (Exception e) {
-            logger.error("CommonDao.int executeBySql(String sql, Map<String, Object> params)");
+            logger.error(e.toString());
             throw new RuntimeException(e);
         }
     }
