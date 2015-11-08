@@ -61,9 +61,9 @@
 
     <bean id="dataSourceProduct" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
         <property name="driverClass" value="com.mysql.jdbc.Driver" />
-        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/hunter?useUnicode=true&amp;characterEncoding=UTF-8" />
-        <property name="user" value="root" />
-        <property name="password" value="root" />
+        <property name="jdbcUrl" value="${dataSourceProduct.hibernate.connection.url}" />
+        <property name="user" value="${dataSourceProduct.hibernate.connection.username}" />
+        <property name="password" value="${dataSourceProduct.hibernate.connection.password}" />
         <property name="initialPoolSize" value="5" />
         <property name="minPoolSize" value="5" />
         <property name="maxPoolSize" value="100" />
@@ -74,9 +74,9 @@
 
     <bean id="dataSourceDevelopment" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
         <property name="driverClass" value="com.mysql.jdbc.Driver" />
-        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/rhino?useUnicode=true&amp;characterEncoding=UTF-8" />
-        <property name="user" value="root" />
-        <property name="password" value="root" />
+        <property name="jdbcUrl" value="${dataSourceDevelopment.hibernate.connection.url}" />
+        <property name="user" value="${dataSourceDevelopment.hibernate.connection.username}" />
+        <property name="password" value="${dataSourceDevelopment.hibernate.connection.password}" />
         <property name="initialPoolSize" value="5" />
         <property name="minPoolSize" value="5" />
         <property name="maxPoolSize" value="100" />
@@ -92,7 +92,7 @@
                 <entry key="DEVELOPMENT" value-ref="dataSourceDevelopment" />
             </map>
         </property>
-        <property name="defaultTargetDataSource" ref="dataSourceDevelopment" />
+        <property name="defaultTargetDataSource" ref="${defaultDataSource}" />
     </bean>
 
 </beans>

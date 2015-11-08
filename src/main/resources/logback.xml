@@ -50,6 +50,7 @@
     <logger name="java.sql.ResultSet" level="ERROR" />
     <logger name="java.sql.PreparedStatement" level="ERROR" />
     <logger name="org.hibernate" level="WARN" />
+    <logger name="com.mchange" level="WARN" />
     <!-- Root Logger -->
     <root level="DEBUG">
         <appender-ref ref="STDOUT" />

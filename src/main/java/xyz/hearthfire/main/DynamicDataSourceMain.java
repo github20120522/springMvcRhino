@@ -1,5 +1,7 @@
 package xyz.hearthfire.main;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import xyz.hearthfire.datasource.CustomerContextHolder;
@@ -16,16 +18,36 @@ import java.util.List;
  */
 public class DynamicDataSourceMain {
 
+    private static Logger logger = LoggerFactory.getLogger(DynamicDataSourceMain.class);
+
     public static void main(String[] args) {
 
         ConfigurableApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
         EntityManagerFactory entityManagerFactory = ctx.getBean("entityManagerFactory", EntityManagerFactory.class);
-        CustomerContextHolder.setCustomerType(CustomerType.PRODUCT);
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         Query query = entityManager.createQuery("select t from TUser t");
         List<TUser> list = query.getResultList();
         for(TUser user : list){
-            System.out.println(user.getId() + ", " + user.getUserName() + ", " + user.getCreateTime());
+            logger.debug("userId：" + user.getId());
+            logger.debug("userName：" + user.getUserName());
+            logger.debug("userPassword：" + user.getPassword());
+            logger.debug("realName：" + user.getRealName());
+            logger.debug("createTime：" + user.getCreateTime());
+            logger.debug("isActivity：" + user.getIsActivity());
+            logger.debug("=========================================");
+        }
+        CustomerContextHolder.setCustomerType(CustomerType.PRODUCT);
+        EntityManager entityManager2 = entityManagerFactory.createEntityManager();
+        Query query2 = entityManager2.createQuery("select t from TUser t");
+        List<TUser> list2 = query2.getResultList();
+        for(TUser user : list2){
+            logger.debug("userId：" + user.getId());
+            logger.debug("userName：" + user.getUserName());
+            logger.debug("userPassword：" + user.getPassword());
+            logger.debug("realName：" + user.getRealName());
+            logger.debug("createTime：" + user.getCreateTime());
+            logger.debug("isActivity：" + user.getIsActivity());
+            logger.debug("=========================================");
         }
         ctx.close();
     }
