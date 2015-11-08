@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.math.BigInteger;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,12 @@ public class CommonDaoImpl implements CommonDao {
         add("java.util.Map");
         add("java.util.LinkedHashMap");
         add("java.util.HashMap");
+    }};
+
+    private static final Set<String> countClazz = new HashSet<String>(){{
+        add("java.lang.Long");
+        add("java.lang.Integer");
+        add("java.math.BigInteger");
     }};
 
     @PersistenceContext
@@ -124,7 +131,7 @@ public class CommonDaoImpl implements CommonDao {
     public <T> PagerData<T> queryPagerData(String countHql, String hql, int currentPage, int pageSize) {
         try {
             PagerData pagerData = new PagerData();
-            Integer count = getSingle(countHql);
+            Long count = getSingle(countHql);
             Query query = entityManager.createQuery(hql);
             query.setFirstResult((currentPage - 1) * pageSize);
             query.setMaxResults(pageSize);
@@ -142,7 +149,7 @@ public class CommonDaoImpl implements CommonDao {
     public <T> PagerData<T> queryPagerData(String countHql, String hql, Map<String, Object> params, int currentPage, int pageSize) {
         try {
             PagerData pagerData = new PagerData();
-            Integer count = getSingle(countHql, params);
+            Long count = getSingle(countHql, params);
             Query query = entityManager.createQuery(hql);
             for(Map.Entry<String, Object> entry : params.entrySet()){
                 query.setParameter(entry.getKey(), entry.getValue());
@@ -244,17 +251,17 @@ public class CommonDaoImpl implements CommonDao {
     public <T> PagerData<T> queryPagerDataBySql(String countSql, String sql, Class<T> clazz) {
         try {
             PagerData pagerData = new PagerData();
-            Integer count = getSingleBySql(countSql, Integer.class);
+            BigInteger count = getSingleBySql(countSql, BigInteger.class);
             if(mapClazz.contains(clazz.getName())){
                 Query query = entityManager.createNativeQuery(sql);
                 query.unwrap(SQLQuery.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
                 pagerData.setData(query.getResultList());
-                pagerData.setTotalCount(count);
+                pagerData.setTotalCount(count.longValue());
                 return pagerData;
             }else{
                 Query query = entityManager.createNativeQuery(sql, clazz);
                 pagerData.setData(query.getResultList());
-                pagerData.setTotalCount(count);
+                pagerData.setTotalCount(count.longValue());
                 return pagerData;
             }
         } catch (Exception e) {
@@ -268,7 +275,7 @@ public class CommonDaoImpl implements CommonDao {
     public <T> PagerData<T> queryPagerDataBySql(String countSql, String sql, Map<String, Object> params, Class<T> clazz) {
         try {
             PagerData pagerData = new PagerData();
-            Integer count = getSingleBySql(countSql, params, Integer.class);
+            BigInteger count = getSingleBySql(countSql, params, BigInteger.class);
             if(mapClazz.contains(clazz.getName())){
                 Query query = entityManager.createNativeQuery(sql);
                 for(Map.Entry<String, Object> entry : params.entrySet()){
@@ -276,7 +283,7 @@ public class CommonDaoImpl implements CommonDao {
                 }
                 query.unwrap(SQLQuery.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
                 pagerData.setData(query.getResultList());
-                pagerData.setTotalCount(count);
+                pagerData.setTotalCount(count.longValue());
                 return pagerData;
             }else{
                 Query query = entityManager.createNativeQuery(sql, clazz);
@@ -284,7 +291,7 @@ public class CommonDaoImpl implements CommonDao {
                     query.setParameter(entry.getKey(), entry.getValue());
                 }
                 pagerData.setData(query.getResultList());
-                pagerData.setTotalCount(count);
+                pagerData.setTotalCount(count.longValue());
                 return pagerData;
             }
         } catch (Exception e) {
@@ -300,6 +307,9 @@ public class CommonDaoImpl implements CommonDao {
             if(mapClazz.contains(clazz.getName())){
                 Query query = entityManager.createNativeQuery(sql);
                 query.unwrap(SQLQuery.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+                return (T)query.getSingleResult();
+            }else if(countClazz.contains(clazz.getName())){
+                Query query = entityManager.createNativeQuery(sql);
                 return (T)query.getSingleResult();
             }else{
                 Query query = entityManager.createNativeQuery(sql, clazz);
@@ -322,6 +332,12 @@ public class CommonDaoImpl implements CommonDao {
                 }
                 query.unwrap(SQLQuery.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
                 return (T)query.getSingleResult();
+            }else if(countClazz.contains(clazz.getName())){
+                Query query = entityManager.createNativeQuery(sql);
+                for(Map.Entry<String, Object> entry : params.entrySet()){
+                    query.setParameter(entry.getKey(), entry.getValue());
+                }
+                return (T)query.getSingleResult();
             }else{
                 Query query = entityManager.createNativeQuery(sql, clazz);
                 for(Map.Entry<String, Object> entry : params.entrySet()){
@@ -337,33 +353,33 @@ public class CommonDaoImpl implements CommonDao {
 
     @Override
     @Transactional
-    public void save(Object obj) {
+    public void save(Object entity) {
         try {
-            entityManager.persist(obj);
+            entityManager.persist(entity);
         } catch (Exception e) {
-            logger.error("CommonDao.void save(Object obj)");
+            logger.error("CommonDao.void save(Object entity)");
             throw new RuntimeException(e);
         }
     }
 
     @Override
     @Transactional
-    public void update(Object obj) {
+    public void update(Object entity) {
         try {
-            entityManager.merge(obj);
+            entityManager.merge(entity);
         } catch (Exception e) {
-            logger.error("CommonDao.void update(Object obj)");
+            logger.error("CommonDao.void update(Object entity)");
             throw new RuntimeException(e);
         }
     }
 
     @Override
     @Transactional
-    public void delete(Object obj) {
+    public void delete(Object entity) {
         try {
-            entityManager.remove(obj);
+            entityManager.remove(entityManager.contains(entity) ? entity : entityManager.merge(entity));
         } catch (Exception e) {
-            logger.error("CommonDao.void delete(Object obj)");
+            logger.error("CommonDao.void delete(Object entity)");
             throw new RuntimeException(e);
         }
     }

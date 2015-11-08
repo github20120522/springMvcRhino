@@ -9,7 +9,7 @@ public class PagerData<T> {
 
     private List<T> data;
 
-    private int totalCount;
+    private long totalCount;
 
     public List<T> getData() {
         return data;
@@ -19,11 +19,11 @@ public class PagerData<T> {
         this.data = data;
     }
 
-    public int getTotalCount() {
+    public long getTotalCount() {
         return totalCount;
     }
 
-    public void setTotalCount(int totalCount) {
+    public void setTotalCount(long totalCount) {
         this.totalCount = totalCount;
     }
 }

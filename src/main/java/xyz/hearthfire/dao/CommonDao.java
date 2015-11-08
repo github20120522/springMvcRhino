@@ -48,11 +48,11 @@ public interface CommonDao {
 
     /* 非查询dao方法 */
 
-    void save(Object obj);
+    void save(Object entity);
 
-    void update(Object obj);
+    void update(Object entity);
 
-    void delete(Object obj);
+    void delete(Object entity);
 
     int execute(String hql);
 
