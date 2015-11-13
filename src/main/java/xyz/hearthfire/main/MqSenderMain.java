@@ -17,10 +17,18 @@ public class MqSenderMain {
     public static void main(String[] args) {
         ConfigurableApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext-mq.xml");
         MqQueueSenderService senderService = ctx.getBean("mqQueueSenderServiceImpl", MqQueueSenderService.class);
-        HashMap<String, Object> data = Maps.newHashMap();
-        data.put("hello", "world");
-        data.put("1", 2);
-        senderService.sendMessage(mqQueueDestination, data);
+        int count = 0;
+        while(true){
+            count++;
+            HashMap<String, Object> data = Maps.newHashMap();
+            data.put("hello", "world");
+            data.put("1", count);
+            System.out.println(count);
+            senderService.sendMessage(mqQueueDestination, data);
+            if(count == 10000){
+                break;
+            }
+        }
         ctx.close();
     }
 }
