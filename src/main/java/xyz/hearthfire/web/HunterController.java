@@ -1,5 +1,6 @@
 package xyz.hearthfire.web;
 
+import com.google.common.collect.Maps;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import xyz.hearthfire.activemq.MqQueueReceiverService;
+import xyz.hearthfire.activemq.MqQueueSenderService;
 import xyz.hearthfire.cache.CacheServiceImpl;
+
+import javax.jms.JMSException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by fz on 2015/10/25.
@@ -19,6 +26,14 @@ public class HunterController {
 
     @Autowired
     private CacheServiceImpl cacheServiceImpl;
+
+    @Autowired
+    private MqQueueSenderService mqQueueSenderService;
+
+    @Autowired
+    private MqQueueReceiverService mqQueueReceiverService;
+
+    private static final String mqQueueDestination = "rhino";
 
     @RequestMapping("/hunter")
     public String index(){
@@ -73,6 +88,38 @@ public class HunterController {
             b = true;
         }
         return b;
+    }
+
+    @RequestMapping("/sendHunterMessage/{message}")
+    @ResponseBody
+    public String sendHunterMessage(@PathVariable String message){
+        HashMap<String, Object> data = Maps.newHashMap();
+        data.put("hunter", message);
+        String result;
+        try {
+            mqQueueSenderService.sendMessage(mqQueueDestination, data);
+            result = "success";
+        } catch (Exception e) {
+            result = "failure";
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @RequestMapping("/receiveHunterMessage")
+    @ResponseBody
+    public Map<String, Object> receiveHunterMessage() throws JMSException {
+        Map<String, Object> result = Maps.newHashMap();
+        try {
+            Map<String, Object> data = mqQueueReceiverService.receiveMessage(mqQueueDestination);
+            result.putAll(data);
+            result.put("success", true);
+        } catch (Exception e) {
+            result.put("success", false);
+            result.put("errorMessage", e.toString());
+            e.printStackTrace();
+        }
+        return result;
     }
 
     public static void main(String[] args) {

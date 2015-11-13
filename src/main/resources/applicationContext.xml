@@ -16,83 +16,10 @@
     <context:component-scan base-package="xyz.hearthfire">
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
         <context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.RestController"/>
+        <context:exclude-filter type="aspectj" expression="activemq..*" />
     </context:component-scan>
 
-    <!-- 缓存配置 -->
-    <!-- 启用缓存注解功能(请将其配置在Spring主配置文件中) -->
-    <cache:annotation-driven cache-manager="cacheManager" />
-
-    <!-- Spring提供的基于的Ehcache实现的缓存管理器 -->
-    <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
-        <property name="cacheManager" ref="cacheManagerFactory" />
-    </bean>
-    <bean id="cacheManagerFactory" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
-        <property name="configLocation" value="classpath:ehcache.xml" />
-    </bean>
-
-    <!-- JPA实体管理工厂的配置 -->
-    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" destroy-method="destroy">
-        <property name="dataSource" ref="dynamicDataSource"/>
-        <property name="jpaVendorAdapter" ref="hibernateJpaVendorAdapter"/>
-        <!--待扫描的实体类包，不再需要persistence.xml了-->
-        <property name="packagesToScan" value="xyz.hearthfire.entity"/>
-        <property name="jpaProperties">
-            <props>
-                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
-                <prop key="hibernate.implicit_naming_strategy">org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl</prop>
-                <prop key="hibernate.show_sql">true</prop>
-                <prop key="hibernate.hbm2ddl.auto">validate</prop>
-            </props>
-        </property>
-    </bean>
-
-    <!--指定实现JPA的适配器-->
-    <bean id="hibernateJpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-        <property name="databasePlatform" value="org.hibernate.dialect.MySQL5Dialect" />
-    </bean>
-
-    <!-- Jpa事务配置 -->
-    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-        <property name="entityManagerFactory" ref="entityManagerFactory"/>
-    </bean>
-
-    <!-- 使用annotation定义事务 -->
-    <tx:annotation-driven transaction-manager="transactionManager" />
-
-    <bean id="dataSourceProduct" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
-        <property name="driverClass" value="com.mysql.jdbc.Driver" />
-        <property name="jdbcUrl" value="${dataSourceProduct.hibernate.connection.url}" />
-        <property name="user" value="${dataSourceProduct.hibernate.connection.username}" />
-        <property name="password" value="${dataSourceProduct.hibernate.connection.password}" />
-        <property name="initialPoolSize" value="5" />
-        <property name="minPoolSize" value="5" />
-        <property name="maxPoolSize" value="100" />
-        <property name="maxIdleTime" value="600" />
-        <property name="acquireIncrement" value="5" />
-        <property name="checkoutTimeout" value="60000" />
-    </bean>
-
-    <bean id="dataSourceDevelopment" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
-        <property name="driverClass" value="com.mysql.jdbc.Driver" />
-        <property name="jdbcUrl" value="${dataSourceDevelopment.hibernate.connection.url}" />
-        <property name="user" value="${dataSourceDevelopment.hibernate.connection.username}" />
-        <property name="password" value="${dataSourceDevelopment.hibernate.connection.password}" />
-        <property name="initialPoolSize" value="5" />
-        <property name="minPoolSize" value="5" />
-        <property name="maxPoolSize" value="100" />
-        <property name="maxIdleTime" value="600" />
-        <property name="acquireIncrement" value="5" />
-        <property name="checkoutTimeout" value="60000" />
-    </bean>
-
-    <bean id="dynamicDataSource" class="xyz.hearthfire.datasource.DynamicDataSource">
-        <property name="targetDataSources">
-            <map key-type="xyz.hearthfire.datasource.CustomerType">
-                <entry key="PRODUCT" value-ref="dataSourceProduct" />
-                <entry key="DEVELOPMENT" value-ref="dataSourceDevelopment" />
-            </map>
-        </property>
-        <property name="defaultTargetDataSource" ref="${defaultDataSource}" />
-    </bean>
-
+    <import resource="applicationContext-cache.xml" />
+    <import resource="applicationContext-db.xml" />
+    <import resource="applicationContext-mq.xml" />
 </beans>

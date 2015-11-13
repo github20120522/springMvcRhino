@@ -27,28 +27,22 @@ public class DynamicDataSourceMain {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         Query query = entityManager.createQuery("select t from TUser t");
         List<TUser> list = query.getResultList();
-        for(TUser user : list){
-            logger.debug("userId：" + user.getId());
-            logger.debug("userName：" + user.getUserName());
-            logger.debug("userPassword：" + user.getPassword());
-            logger.debug("realName：" + user.getRealName());
-            logger.debug("createTime：" + user.getCreateTime());
-            logger.debug("isActivity：" + user.getIsActivity());
-            logger.debug("=========================================");
-        }
+        list.forEach(DynamicDataSourceMain::logUser);
         CustomerContextHolder.setCustomerType(CustomerType.PRODUCT);
         EntityManager entityManager2 = entityManagerFactory.createEntityManager();
         Query query2 = entityManager2.createQuery("select t from TUser t");
         List<TUser> list2 = query2.getResultList();
-        for(TUser user : list2){
-            logger.debug("userId：" + user.getId());
-            logger.debug("userName：" + user.getUserName());
-            logger.debug("userPassword：" + user.getPassword());
-            logger.debug("realName：" + user.getRealName());
-            logger.debug("createTime：" + user.getCreateTime());
-            logger.debug("isActivity：" + user.getIsActivity());
-            logger.debug("=========================================");
-        }
+        list2.forEach(DynamicDataSourceMain::logUser);
         ctx.close();
+    }
+
+    private static void logUser(TUser user){
+        logger.debug("userId：" + user.getId());
+        logger.debug("userName：" + user.getUserName());
+        logger.debug("userPassword：" + user.getPassword());
+        logger.debug("realName：" + user.getRealName());
+        logger.debug("createTime：" + user.getCreateTime());
+        logger.debug("isActivity：" + user.getIsActivity());
+        logger.debug("=========================================");
     }
 }

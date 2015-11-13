@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:property-placeholder location="classpath:spring.properties" />
+
+    <context:component-scan base-package="xyz.hearthfire.activemq" />
+
+    <!-- 配置activemq -->
+    <bean id="jmsFactory" class="org.apache.activemq.pool.PooledConnectionFactory"
+          destroy-method="stop">
+        <property name="connectionFactory">
+            <bean class="org.apache.activemq.ActiveMQConnectionFactory">
+                <property name="userName" value="${activemq.userName}" />
+                <property name="password" value="${activemq.password}" />
+                <property name="brokerURL" value="${activemq.url}" />
+            </bean>
+        </property>
+        <property name="maxConnections" value="50"></property>
+    </bean>
+
+    <!-- Spring JMS Template -->
+    <bean id="jmsQueueTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="jmsFactory" />
+        <property name="defaultDestinationName" value="${activemq.defaultDestination}" />
+        <property name="receiveTimeout" value="5000" />
+        <property name="pubSubDomain" value="false" />
+    </bean>
+
+</beans>
