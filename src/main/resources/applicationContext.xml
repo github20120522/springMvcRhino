@@ -17,9 +17,11 @@
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
         <context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.RestController"/>
         <context:exclude-filter type="aspectj" expression="activemq..*" />
+        <context:exclude-filter type="aspectj" expression="task..*" />
     </context:component-scan>
 
     <import resource="applicationContext-cache.xml" />
     <import resource="applicationContext-db.xml" />
     <import resource="applicationContext-mq.xml" />
+    <import resource="applicationContext-task.xml" />
 </beans>
