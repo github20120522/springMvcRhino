@@ -11,11 +11,21 @@ import java.util.Date;
  */
 @Component
 public class HunterTask {
+
+    private static boolean lock = false;
+
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
-    @Scheduled(fixedRate = 5000)
-    public void reportCurrentTime() {
-        System.out.println("The time is now " + dateFormat.format(new Date()));
+    @Scheduled(fixedRate = 1000)
+    public void reportCurrentTime() throws InterruptedException {
+        if(!lock){
+            lock = true;
+            System.out.println("The time is now " + dateFormat.format(new Date()));
+            Thread.sleep(6000);
+            lock = false;
+        }else{
+            System.out.println("Never print...");
+        }
     }
 
 }
