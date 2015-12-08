@@ -5,8 +5,9 @@
     <!-- 把日志添加到控制台 -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <!-- 日志输出编码 -->
-        <Encoding>UTF-8</Encoding>
+        <!--<Encoding>UTF-8</Encoding>-->
         <encoder>
+            <charset>UTF-8</charset>
             <!--
                 格式化输出
                 %d：表示日期
@@ -21,6 +22,8 @@
     </appender>
     <!-- 滚动记录文件，先将日志记录到指定文件，当符合某个条件时，将日志记录到其他文件 -->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 日志输出编码 -->
+        <!--<Encoding>UTF-8</Encoding>-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- 每天生成一个日志文件，每月生成一个文件夹 -->
             <fileNamePattern>${LOG_HOME}/%d{yyyyMM}/%d{yyyyMMdd}.log</fileNamePattern>
@@ -35,6 +38,7 @@
             <maxHistory>12</maxHistory>
         </rollingPolicy>
         <encoder>
+            <charset>UTF-8</charset>
             <pattern>%d [%thread] %-5level [%logger{36}] - %msg%n</pattern>
         </encoder>
         <!--日志文件最大的大小 -->
