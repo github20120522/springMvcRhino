@@ -1,4 +1,4 @@
-package xyz.hearthfire.dao;
+package xyz.hearthfire.dao.impl;
 
 import org.hibernate.SQLQuery;
 import org.hibernate.transform.Transformers;
@@ -6,6 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import xyz.hearthfire.dao.CommonDao;
+import xyz.hearthfire.dao.PagerData;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

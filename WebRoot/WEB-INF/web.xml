@@ -32,6 +32,16 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+    <!-- BasePath filter -->
+    <filter>
+        <filter-name>BaseFilter</filter-name>
+        <filter-class>xyz.hearthfire.filter.BasePathFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>BaseFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
     <!-- spring mvc servlet -->
     <servlet>
         <servlet-name>dispatcher</servlet-name>

@@ -12,6 +12,7 @@ import java.util.Date;
 @Component
 public class HunterTask {
 
+    /*
     private static boolean lock = false;
 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
@@ -27,5 +28,6 @@ public class HunterTask {
             System.out.println("Never print...");
         }
     }
+    */
 
 }

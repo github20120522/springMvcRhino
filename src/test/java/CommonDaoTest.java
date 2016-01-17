@@ -93,7 +93,7 @@ public class CommonDaoTest {
     }
 
     @Test
-         public void userGetSingleTest(){
+    public void userGetSingleTest(){
         String hql = "from TUser where id = 1";
         TUser user = commonDao.getSingle(hql);
         Assert.assertEquals("rhino", user.getUserName());
@@ -243,9 +243,11 @@ public class CommonDaoTest {
 
     @Test
     public void userExecuteBySqlTest(){
-        String sql = "insert into t_user(user_name, password, real_name, create_time, is_activity) values('rhino3', 222, '犀牛3', sysdate(), 1)";
-        int count = commonDao.executeBySql(sql);
-        Assert.assertEquals(1, count);
+        for (int i=3; i<58; i++) {
+            String sql = "insert into t_user(user_name, password, real_name, create_time, is_activity) values('rhino"+i+"', 222, '犀牛"+i+"', sysdate(), 1)";
+            int count = commonDao.executeBySql(sql);
+            Assert.assertEquals(1, count);
+        }
     }
 
     @Test
