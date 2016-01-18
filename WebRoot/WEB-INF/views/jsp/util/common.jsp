@@ -97,10 +97,10 @@
 
         if (!singleSelectFlag) {
             // 全选/取消工具栏
-            var toolbar = '<span style="width: 100%; border-bottom: 1px dashed blue; padding: 5px;">';
-            toolbar += '<a id="selectAllBtn" type="button" class="btn btn-link">全选</a>';
-            toolbar += '<a id="deSelectAllBtn" type="button" class="btn btn-link">取消全选</a>';
-            toolbar += '</span>';
+            var toolbar = '<p>';
+            toolbar += '<input id="selectAllBtn" type="button" class="btn btn-primary btn-xs" value="全选"/>';
+            toolbar += '<input id="deSelectAllBtn" type="button" class="btn btn-default btn-xs" value="取消全选">';
+            toolbar += '</p>';
             $("div.toolbar").html(toolbar);
 
             $("#selectAllBtn").click(function () {
