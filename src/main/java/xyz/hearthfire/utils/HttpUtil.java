@@ -14,6 +14,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.*;
 
 /**
@@ -85,10 +86,14 @@ public class HttpUtil {
 
     public static void main(String[] args) throws IOException {
 
-        String url = "http://www.zimaoda.com";
-        Map headers = new HashMap();
-        Map params = new HashMap();
-        String result = HttpUtil.httpPost(url, headers, params);
+        System.setProperty("jsse.enableSNIExtension", "false");
+        String url = "https://login.weixin.qq.com/jslogin";
+        url += "?appid=" + URLEncoder.encode("wx782c26e4c19acffb", "utf-8");
+        url += "&fun=" + URLEncoder.encode("new", "utf-8");
+        url += "&lang=" + URLEncoder.encode("zh_CN", "utf-8");
+        url += "&_=" + URLEncoder.encode(System.currentTimeMillis() + "", "utf-8");
+        Map header = new HashMap<>();
+        String result = HttpUtil.httpGet(url, header);
         System.out.println(result);
     }
 }
