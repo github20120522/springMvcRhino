@@ -36,7 +36,7 @@
                     "defaultContent": "<button>点点点</button>"
                 }
             ];
-            var table = new commonDataTable("example", {scrollY: 300}, ajaxParamsFn, columns, columnDefs, true);
+            var table = new commonDataTable("${basePath}dt/dtListJson", "example", {scrollY: 300}, ajaxParamsFn, columns, columnDefs, false);
 
             // 自定义
             $('#example tbody').on('click', 'button', function () {
@@ -98,20 +98,18 @@
     </script>
 </head>
 <body>
-<div class="container-fluid">
-    <div class="row">
-        <div class="form-group form-inline">
-            <input id="button" class="btn btn-success" type="button" value="获取选中数据">
-            <label>姓名</label><input id="name" class="form-control" type="text" placeholder="名字" />
-            <input id="reloadBtn" class="btn btn-default" type="button" value="查询">
-        </div>
-    </div>
-</div>
+
 <div class="panel panel-primary">
     <div class="panel-heading">
         <h3 class="panel-title">用户列表</h3>
     </div>
     <div class="panel-body">
+        <div class="form-group form-inline">
+            <input id="button" class="btn btn-success" type="button" value="获取选中数据">
+            <label>姓名</label><input id="name" class="form-control" type="text" placeholder="名字" />
+            <input id="reloadBtn" class="btn btn-default" type="button" value="查询">
+        </div>
+        <div class="sBar"></div>
         <table id="example" class="dataTable compact display cell-border hover order-column row-border stripe" cellspacing="0" width="100%">
             <thead>
             <tr>

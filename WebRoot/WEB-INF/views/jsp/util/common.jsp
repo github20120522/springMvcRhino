@@ -16,6 +16,10 @@
     tr.shown td.details-control {
         background: url('${basePath}static/js/lib/datatables/DataTables-1.10.10/images/details_close.png') no-repeat center center;
     }
+    .dataTables_length {
+        margin-top: 10px;
+        margin-left: 10px;
+    }
     .modal {
         text-align: center;
         padding-top: 200px;
@@ -73,14 +77,14 @@
         }
     });
 
-    function commonDataTable(elementStr, exConfig, ajaxParamsFn, columns, columnDefs, singleSelectFlag) {
+    function commonDataTable(url, elementStr, exConfig, ajaxParamsFn, columns, columnDefs, singleSelectFlag) {
 
         var config = {
-            "dom": '<"toolbar">lrtip',
+            "dom": '<"toolbar"rtip><"bottom"l>',
             // scrollY: 400,
             scrollX: true,
             ajax: {
-                url: "${basePath}dt/dtListJson",
+                url: url,
                 type: "POST",
                 data: ajaxParamsFn
             },
@@ -101,7 +105,7 @@
             toolbar += '<input id="selectAllBtn" type="button" class="btn btn-primary btn-xs" value="全选"/>';
             toolbar += '<input id="deSelectAllBtn" type="button" class="btn btn-default btn-xs" value="取消全选">';
             toolbar += '</p>';
-            $("div.toolbar").html(toolbar);
+            $("div.sBar").html(toolbar);
 
             $("#selectAllBtn").click(function () {
                 var trs = $("#" + elementStr + " > tbody > tr");
@@ -122,12 +126,12 @@
             });
 
             // 多选
-            $('#example tbody').on('click', 'tr', function () {
+            $('#' + elementStr + ' tbody').on('click', 'tr', function () {
                 $(this).toggleClass('selected');
             });
         } else {
             // 单选
-            $('#example tbody').on('click', 'tr', function () {
+            $('#' + elementStr + ' tbody').on('click', 'tr', function () {
                 if ($(this).hasClass('selected')) {
                     $(this).removeClass('selected');
                 } else {
