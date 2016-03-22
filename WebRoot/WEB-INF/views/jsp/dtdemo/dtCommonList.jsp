@@ -7,12 +7,14 @@
     <script type="text/javascript">
         $(document).ready(function () {
 
-            var ajaxParams = {
-                name: $("#name").val()
+            var ajaxParamsFn = function(){
+                var params = {};
+                params.name = $("#name").val();
+                return params;
             };
             var columns = [{
                 "data": "id"
-            },{
+            }, {
                 "data": null,
                 "className": 'details-control',
                 "defaultContent": ''
@@ -45,9 +47,9 @@
                 url: "${basePath}dt/dtListJson",
                 tabElement: "#example",
                 exConfig: {
-                    scrollY: 300
+                    scrollY: 320
                 },
-                ajaxParams: ajaxParams,
+                ajaxParamsFn: ajaxParamsFn,
                 columns: columns,
                 columnDefs: columnDefs,
                 singleSelectFlag: false
@@ -90,31 +92,43 @@
     </script>
 </head>
 <body>
-
-<div class="panel panel-primary">
-    <div class="panel-heading">
-        <h3 class="panel-title">用户列表</h3>
-    </div>
-    <div class="panel-body">
-        <div class="form-group form-inline">
-            <input id="button" class="btn btn-success" type="button" value="获取选中数据">
-            <label>姓名</label><input id="name" class="form-control" type="text" placeholder="名字" />
-            <input id="reloadBtn" class="btn btn-default" type="button" value="查询">
+<div class="container-fluid">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">用户列表</h3>
         </div>
-        <table id="example" class="dataTable compact display cell-border hover order-column row-border stripe" cellspacing="0" width="100%">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th></th>
-                <th>姓名</th>
-                <th>真实姓名</th>
-                <th>是否有效</th>
-                <th>操作</th>
-            </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
+        <div class="panel-body">
+            <div class="form-group form-inline">
+                <div class="row row-margin-bottom">
+                    <div class="col-md-1">
+                        <input id="button" class="btn btn-success btn-xs" type="button" value="获取选中数据">
+                    </div>
+                </div>
+                <div class="row row-margin-bottom">
+                    <div class="col-md-3">
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-addon" id="basic-addon1">姓名</span>
+                            <input id="name" type="text" class="form-control" aria-describedby="basic-addon1">
+                        </div>
+                        <input id="reloadBtn" class="btn btn-primary btn-sm" type="button" value="查询">
+                    </div>
+                </div>
+            </div>
+            <table id="example" class="dataTable compact display cell-border hover order-column row-border stripe" cellspacing="0" width="100%">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th></th>
+                    <th>姓名</th>
+                    <th>真实姓名</th>
+                    <th>是否有效</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 </body>

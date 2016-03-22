@@ -39,3 +39,7 @@ tr.shown td.details-control {
     width: 100%;
     background: rgba(255, 255, 255, .8);
 }
+
+.row-margin-bottom {
+    margin-bottom: 5px;
+}
