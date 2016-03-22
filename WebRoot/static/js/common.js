@@ -34,7 +34,7 @@ $.extend($.fn.dataTable.defaults, {
 
 function commonDataTable(paramsConfig) {
 
-    // paramsConfig : {url, tabElement, exConfig, ajaxParamsFn, columns, columnDefs, singleSelectFlag}
+    // paramsConfig : {url, tabElement, exConfig, ajaxParams, columns, columnDefs, singleSelectFlag}
     var config = {
         "dom": '<"toolbar"rtip><"bottom"l>',
         // scrollY: 400,
@@ -42,7 +42,13 @@ function commonDataTable(paramsConfig) {
         ajax: {
             url: paramsConfig.url,
             type: "POST",
-            data: paramsConfig.ajaxParamsFn
+            data: function(d) {
+                var result = $.extend({}, paramsConfig.ajaxParams);
+                result.draw = d.draw;
+                result.length = d.length;
+                result.start = d.start;
+                return result;
+            }
         },
         "columns": paramsConfig.columns,
         "columnDefs": paramsConfig.columnDefs

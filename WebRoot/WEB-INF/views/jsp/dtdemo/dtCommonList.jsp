@@ -7,8 +7,8 @@
     <script type="text/javascript">
         $(document).ready(function () {
 
-            var ajaxParamsFn = function (d) {
-                d.name = $("#name").val();
+            var ajaxParams = {
+                name: $("#name").val()
             };
             var columns = [{
                 "data": "id"
@@ -47,7 +47,7 @@
                 exConfig: {
                     scrollY: 300
                 },
-                ajaxParamsFn: ajaxParamsFn,
+                ajaxParams: ajaxParams,
                 columns: columns,
                 columnDefs: columnDefs,
                 singleSelectFlag: false
