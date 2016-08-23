@@ -1,4 +1,6 @@
 import okhttp3.*;
+import xyz.hearthfire.utils.BaseUtil;
+import xyz.hearthfire.xml.dss.response.Dss;
 
 import java.io.File;
 import java.util.Date;
@@ -31,7 +33,13 @@ public class OkHttpClientTest {
                 .post(requestBody)
                 .build();
         Response response = client.newCall(request).execute();
-        System.out.println(response.body().string());
+        String content = response.body().string();
+        Dss dss = BaseUtil.JAXBUnMarshal(content, Dss.class);
+        System.out.println("requestId: " + dss.getRequestId());
+        System.out.println("code: " + dss.getCode());
+        System.out.println("message: " + dss.getMessage());
+        System.out.println("url: " + dss.getUrl());
+        System.out.println("objectName: " + dss.getObjectName());
     }
 
 }

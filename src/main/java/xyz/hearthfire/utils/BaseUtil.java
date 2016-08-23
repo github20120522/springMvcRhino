@@ -3,8 +3,13 @@ package xyz.hearthfire.utils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -58,5 +63,25 @@ public class BaseUtil {
     public static String ymDateFormat(Date date) {
 
         return sdf2.format(date);
+    }
+
+    public static String JAXBMarshal(Object obj) throws IOException, JAXBException {
+        String xml = "";
+        try (StringWriter sw = new StringWriter()) {
+            JAXBContext context = JAXBContext.newInstance(obj.getClass());
+            Marshaller marshaller = context.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            marshaller.marshal(obj, sw);
+            xml = sw.toString();
+        }
+        return xml;
+    }
+
+    public static <T> T JAXBUnMarshal(String xml, Class<T> cls) throws JAXBException {
+        try(StringReader sr = new StringReader(xml)) {
+            JAXBContext context = JAXBContext.newInstance(cls);
+            Unmarshaller unmarshaller = context.createUnmarshaller();
+            return (T) unmarshaller.unmarshal(sr);
+        }
     }
 }
