@@ -26,7 +26,7 @@ public class OkHttpClientTest {
                 .url("http://middleware.cloud.cainiao.com/dss/putObject.do")
                 .header("Content-Type", "application/octet-stream;charset=utf-8")
                 .addHeader("Date", SignGenTest.parseGMT(new Date()))
-                .addHeader("Auth", SignGenTest.genSign("yichun", "yichun", "GET", "text/xml", null, null, null))
+                .addHeader("Auth", SignGenTest.genSign("yichun", "yichun", "POST", "application/octet-stream;charset=utf-8", null, null, null))
                 .addHeader("OrderType", "OrderType")
                 .addHeader("OrderNo", "OrderNo")
                 .addHeader("ObjectName", "ObjectName")
