@@ -17,7 +17,6 @@ tr.shown td.details-control {
 }
 .modalTab {
     text-align: center;
-    padding-top: 200px;
     display: none;
     position: fixed;
     z-index: 9000;
@@ -25,7 +24,7 @@ tr.shown td.details-control {
     left: 0;
     height: 100%;
     width: 100%;
-    background: rgba(255, 255, 255, .3);
+    background: rgba(255, 255, 255, .0);
 }
 .modalMask {
     text-align: center;

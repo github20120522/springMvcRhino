@@ -61,11 +61,11 @@ function commonDataTable(paramsConfig) {
 
     if (!paramsConfig.singleSelectFlag) {
         // 全选/取消工具栏
-        var toolbar = '<p>';
-        toolbar += '<input id="selectAllBtn" type="button" class="btn btn-primary btn-xs" value="全选"/>';
-        toolbar += '<input id="deSelectAllBtn" type="button" class="btn btn-default btn-xs" value="取消全选">';
-        toolbar += '</p>';
-        $(toolbar).insertBefore($(paramsConfig.tabElement + "_wrapper"));
+        var toolbar = '<div style="position: absolute; top: 1px; z-index: 9527;">';
+        toolbar += '<input id="selectAllBtn" type="button" class="btn btn-info btn-xs" value="全"/>';
+        toolbar += '<input id="deSelectAllBtn" type="button" class="btn btn-default btn-xs" value="空">';
+        toolbar += '</div>';
+        $(toolbar).prependTo($(paramsConfig.tabElement + "_wrapper"));
 
         $("#selectAllBtn").click(function () {
             var trs = $(paramsConfig.tabElement + " > tbody > tr");

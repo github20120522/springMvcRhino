@@ -9,7 +9,7 @@
 <script type="text/javascript" src="${basePath}static/js/lib/bootstrap/bootstrap.min.js"></script>
 <script type="text/javascript" src="${basePath}static/js/common.js"></script>
 <div id="processingIndicator" class="modalTab">
-    <span style="color: #7e7bff; font-size: 20px;">正在处理，请稍等。。。</span>
+    <span style="color: #ffffff; font-size: 12px; top: 95%; right: 0; position: fixed;">loading...</span>
 </div>
 <div id="maskProcess" class="modalMask">
     <span style="color: #ff1a13; font-size: 20px;">正在处理，请稍等。。。</span>
