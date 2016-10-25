@@ -63,8 +63,7 @@ public class AES128Util {
     public static void main(String[] args) throws UnsupportedEncodingException {
 
         String keyWord = "today_is_a_sunny_day";
-        byte[] base64KeyBytes = Base64.encodeBase64(keyWord.getBytes(DEFAULT_CHARSET));
-        String base64KeyWord = new String(base64KeyBytes, DEFAULT_CHARSET);
+        String base64KeyWord = Base64.encodeBase64String(keyWord.getBytes());
         String content = "abc";
 
         System.out.println("加密密钥：" + base64KeyWord);
